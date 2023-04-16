@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 import discord
 from discord.ext import commands
-import configparser
+import configparser, datetime
 from sonic_ascii import SONIC_WINK, SONIC_COFFEE
-import requests
+import random, requests
 
 config = configparser.ConfigParser()
 config.read('config.ini')
 
 TOKEN = config.get('Discord', 'TOKEN')
+
+last_sonic_coffee_sent = None
+target_count = 0
 
 bot = commands.Bot(
     command_prefix="/",
@@ -20,6 +23,19 @@ target_channel_id = int(config.get('UserIDs', 'TARGET_CHANNEL'))
 target_user_id = int(config.get('UserIDs', 'TARGET_USER'))
 
 MEME_API_URL = 'http://meme-api.com/gimme/sonicmemes'
+
+sonic_funny_responses = [
+    "You're too slow! Can't catch up with my comebacks!",
+    "You must be Dr. Eggman in disguise, trying to slow me down!",
+    "Oh, you think you're tough? I've defeated Robotnik, you're nothing!",
+    "No time for haters, gotta go fast!",
+    "Hey, if I wanted to hear from an egghead, I'd go find Dr. Eggman!",
+    "You must be one of those Badniks, always causing trouble!",
+    "Too bad your attitude doesn't match your speed, or you'd be the fastest person alive!",
+    "Well, at least I can outrun your negativity!",
+    "I'm too busy collecting rings to care about your mean words!",
+    "Why so serious? Lighten up, buddy! We've got a world to save!"
+]
 
 def get_random_sonic_meme():
     try:
@@ -40,6 +56,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+    global last_sonic_coffee_sent, target_count  
     if message.author.bot:
         return
 
@@ -78,20 +95,23 @@ async def on_message(message):
     elif isinstance(message.channel, discord.TextChannel):
         content_lower = message.content.lower()
         if bot.user in message.mentions:
-            if any(greeting in content_lower for greeting in ['hi', 'hello', 'hey']):
-                await message.channel.send(f'Hi, <@{message.author.id}>! Let\'s play sonic today!')
-            elif 'love' or 'hate' in content_lower:
-                await message.channel.send(f'I love you too <@{message.author.id}>!')
-            elif 'meme' in content_lower or content_lower == 'm':
+            # if any(greeting in content_lower for greeting in ['hi', 'hello', 'hey']):
+            #     await message.channel.send(f'Hi, <@{message.author.id}>! Let\'s play sonic today!')
+            if 'meme' in content_lower or content_lower == 'm':
                 meme_url = get_random_sonic_meme()
                 if meme_url:
                     await message.channel.send(f'Here\'s your meme:\n{meme_url}')
                 else:
                     await message.channel.send("Failed to fetch a random Sonic meme.")
-            if message.author.id == target_user_id:
+
+        if message.author.id == target_user_id:
+            if last_sonic_coffee_sent is None or (datetime.datetime.now() - last_sonic_coffee_sent).days >= 1:
                 coffee_chunks = split_string_into_chunks(SONIC_COFFEE, 1990)  # Use 1990 to leave space for the backticks.
                 for chunk in coffee_chunks:
                     await message.channel.send(f'```{chunk}```')
-
+                last_sonic_coffee_sent = datetime.datetime.now()
+            
+            funny_response = random.choice(sonic_funny_responses)
+            await message.channel.send(f'<@{message.author.id}> {funny_response}')
 
 bot.run(TOKEN)
