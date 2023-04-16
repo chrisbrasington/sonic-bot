@@ -174,7 +174,7 @@ async def on_message(message):
                             await message_to_delete.delete()
                     # go find the channel context
                     except:
-                        guild = client.get_guild(guild_id) # Replace with the ID of the guild where the message is located
+                        guild = bot.get_guild(guild_id) # Replace with the ID of the guild where the message is located
                         message_to_delete = None
                         for channel in guild.channels:
                             try:
