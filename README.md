@@ -12,8 +12,8 @@ This bot requires the following Python packages to be installed:
 - requests==2.26.0
 
 You can install the required packages using pip:
-> pip install -r requirements.txt
 
+`pip install -r requirements.txt`
 
 ## Configuration
 
@@ -27,7 +27,7 @@ Before running the script, you need to set up your `config.ini` file. You can us
 
 To run the bot, execute the following command in your terminal:
 
-> python sonic_bot.py
+`python sonic_bot.py`
 
 Once the bot is running, it will respond to various commands and messages. You can use the `/` command prefix to trigger specific bot responses.
 
@@ -35,20 +35,19 @@ Once the bot is running, it will respond to various commands and messages. You c
 
 1. Build the Docker image by executing the following command:
 
-> docker build -t sonic-bot .
+`docker build -t sonic-bot .`
 
 This will create a new Docker image with the name "sonic-bot".
 
 2. Run the Docker container by executing the following command:
 
-> docker run -d --restart=always sonic-bot
+`docker run -d -t --restart=always sonic-bot`
 
 The "-d" flag tells Docker to run the container in detached mode, meaning it will run in the background. The "--restart=always" flag tells Docker to automatically restart the container if it crashes or is stopped.
 
 3. That's it! Your Sonic Discord bot should now be running inside a Docker container. To check if it's working, you can use the Docker logs command:
 
-> docker logs <container_id>
-
+`docker logs <container_id>`
 
 Replace <container_id> with the ID of your running container, which you can find using the docker ps command.
 
