@@ -19,7 +19,6 @@ bot = commands.Bot(
     intents=discord.Intents.default())
 
 authorized_user_id = int(config.get('UserIDs', 'AUTHORIZED_USER'))
-target_channel_id = int(config.get('UserIDs', 'TARGET_CHANNEL'))
 target_user_id = int(config.get('UserIDs', 'TARGET_USER'))
 
 MEME_API_URL = 'http://meme-api.com/gimme/sonicmemes'
@@ -61,37 +60,33 @@ async def on_message(message):
         return
 
     if isinstance(message.channel, discord.DMChannel) and message.author.id == authorized_user_id:
-        target_channel = bot.get_channel(target_channel_id)
-        if target_channel:
-            # print(message.content.lower())
-            if message.content.lower().startswith("delete") or message.content.lower() == "d":
-                # Extract the message ID if provided.
-                message_id_to_delete = message.content[6:].strip()
+        # print(message.content.lower())
+        if message.content.lower().startswith("delete") or message.content.lower() == "d":
+            # Extract the message ID if provided.
+            message_id_to_delete = message.content[6:].strip()
 
-                if message_id_to_delete.isdigit():
-                    # If a message ID is provided, try to delete the message with that ID.
-                    message_to_delete = await target_channel.fetch_message(int(message_id_to_delete))
-                    if message_to_delete:
-                        await message_to_delete.delete()
-                else:
-                    # If no message ID is provided, delete the last message sent by the bot.
-                    async for msg in target_channel.history(limit=10):
-                        if msg.author == bot.user:
-                            await msg.delete()
-                            break
-            elif message.content.lower().startswith("tag"):
-                cleaned_message = message.content[3:].strip()
-                await target_channel.send(f'<@{target_user_id}> {cleaned_message}')
-            elif message.content.lower() == "meme" or message.content.lower() == 'm':
-                meme_url = get_random_sonic_meme()
-                if meme_url:
-                    await target_channel.send(meme_url)
-                else:
-                    await target_channel.send("Failed to fetch a random Sonic meme.")
+            if message_id_to_delete.isdigit():
+                # If a message ID is provided, try to delete the message with that ID.
+                message_to_delete = await target_channel.fetch_message(int(message_id_to_delete))
+                if message_to_delete:
+                    await message_to_delete.delete()
             else:
-                await target_channel.send(f'{message.content}')
+                # If no message ID is provided, delete the last message sent by the bot.
+                async for msg in target_channel.history(limit=10):
+                    if msg.author == bot.user:
+                        await msg.delete()
+                        break
+        elif message.content.lower().startswith("tag"):
+            cleaned_message = message.content[3:].strip()
+            await target_channel.send(f'<@{target_user_id}> {cleaned_message}')
+        elif message.content.lower() == "meme" or message.content.lower() == 'm':
+            meme_url = get_random_sonic_meme()
+            if meme_url:
+                await target_channel.send(meme_url)
+            else:
+                await target_channel.send("Failed to fetch a random Sonic meme.")
         else:
-            print("Target channel not found.")
+            await target_channel.send(f'{message.content}')
     elif isinstance(message.channel, discord.TextChannel):
         content_lower = message.content.lower()
         if bot.user in message.mentions:
