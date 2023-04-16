@@ -173,7 +173,7 @@ async def on_message(message):
                     await target_channel.send("Failed to fetch a random Sonic meme.")
             elif message.content.lower() == "wink":
                 await target_channel.channel.send(f'```{SONIC_COFFEE}```')
-            elif message.content.lower() == "wink":
+            elif message.content.lower() == "coffee":
                 await target_channel.channel.send(f'```{SONIC_COFFEE}```')
             elif message.content.lower().startswith("tag"):
                 print('forwarding message with tag')
