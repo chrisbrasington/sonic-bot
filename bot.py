@@ -230,7 +230,7 @@ async def on_message(message):
                     await message.channel.send(f'Here\'s your meme:\n{meme_url}')
                 else:
                     await message.channel.send("Failed to fetch a random Sonic meme.")
-            elif 'hi' in content_lower or 'hello' in content_lower or 'hey' in content_lower:
+            elif content_lower.startswith('hi') or content_lower.startswith('hello') or content_lower.startswith('hey'):
                   await message.channel.send(f"Hey {message.author.id}!")
             else:
                 print('analyzing... ',end='')
