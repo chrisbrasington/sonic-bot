@@ -231,7 +231,7 @@ async def on_message(message):
                 else:
                     await message.channel.send("Failed to fetch a random Sonic meme.")
             elif content_lower.startswith('hi') or content_lower.startswith('hello') or content_lower.startswith('hey'):
-                  await message.channel.send(f"Hey {message.author.metion}!")
+                  await message.channel.send(f"Hey {message.author.mention}!")
             else:
                 print('analyzing... ',end='')
                 sentiment = sia.polarity_scores(message.content)
