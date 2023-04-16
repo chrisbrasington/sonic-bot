@@ -44,7 +44,17 @@ sonic_positive_responses = [
     "You're as fast as the wind, and as bright as the sun!",
     "Thanks for being a part of the team!",
     "I'm all about the good vibes, and you're bringing them!",
-    "Way past cool! Keep being amazing!"
+    "Way past cool! Keep being amazing!",
+    "Your positivity is supercharged, just like a Spin Dash!",
+    "You've got the power of Chaos Emeralds in your words!",
+    "Running through Green Hill Zone is always better with friends like you!",
+    "You've got the speed and spirit of a true hero!",
+    "Keep shining like a Super Sonic!",
+    "Your kind words give me an extra life!",
+    "You're like a shield power-up, always protecting and supporting!",
+    "With friends like you, I know we can defeat any villain!",
+    "You make this adventure even more exciting!",
+    "Your energy could light up the whole Casino Night Zone!"
 ]
 sonic_neutral_responses = [
     "Let's talk about something fun, like collecting rings!",
@@ -56,7 +66,8 @@ sonic_neutral_responses = [
     "Green Hill Zone sure is beautiful!",
     "I wonder what Dr. Eggman is planning this time...",
     "Chaos Emeralds are pretty powerful, don't you think?",
-    "Do you have a favorite Sonic game?"
+    "Do you have a favorite Sonic game?",
+    "Did you know that Knuckles can glide and climb walls?"
 ]
 sonic_funny_responses = [
     "You're too slow! Can't catch up with my comebacks!",
@@ -68,7 +79,17 @@ sonic_funny_responses = [
     "Too bad your attitude doesn't match your speed, or you'd be the fastest person alive!",
     "Well, at least I can outrun your negativity!",
     "I'm too busy collecting rings to care about your mean words!",
-    "Why so serious? Lighten up, buddy! We've got a world to save!"
+    "Why so serious? Lighten up, buddy! We've got a world to save!",
+    "Looks like you need a chili dog to cool down that hot temper of yours!",
+    "Are you sure you're not the one who's been spinning around all day? You're making me dizzy!",
+    "Sorry, I don't have time to deal with Knuckles' jealous rants. I gotta go!",
+    "What's the matter, Eggman? Can't handle my super speed and witty comebacks?",
+    "I'm not just fast, I'm also smart. Can you keep up with my intelligence?",
+    "Hey, Tails! Looks like we've got another slowpoke here who needs a lesson in speed!",
+    "I'm the Blue Blur, not the Blue Bore. You're putting me to sleep with that attitude!",
+    "I may be small, but I'm mighty. Don't underestimate me or my one-liners!",
+    "You can't handle the truth, just like you can't handle my supersonic speed!",
+    "You may be a tough cookie, but I'm a chili dog with extra relish. Try and catch me!"
 ]
 
 def generate_chatgpt_response(prompt, model="text-davinci-002", max_tokens=50):
