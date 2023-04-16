@@ -24,6 +24,7 @@ bot = commands.Bot(
 authorized_user_id = int(config.get('UserIDs', 'AUTHORIZED_USER'))
 target_user_id = int(config.get('UserIDs', 'TARGET_USER'))
 target_channel_id = int(config.get('UserIDs', 'TARGET_CHANNEL'))
+guild_id = int(config.get('UserIDs', 'GUILD_ID'))
 OPENAI_API_KEY = config.get('OpenAi', 'TOKEN')
 openai.api_key = OPENAI_API_KEY
 
@@ -164,11 +165,27 @@ async def on_message(message):
                 message_id_to_delete = message.content[6:].strip()
 
                 if message_id_to_delete.isdigit():
-                    print(f'deleting message {message_id_to_delete}')
-                    # If a message ID is provided, try to delete the message with that ID.
-                    message_to_delete = await target_channel.fetch_message(int(message_id_to_delete))
-                    if message_to_delete:
-                        await message_to_delete.delete()
+                    # delete from current channel context
+                    try:
+                        print(f'deleting message {message_id_to_delete}')
+                        # If a message ID is provided, try to delete the message with that ID.
+                        message_to_delete = await target_channel.fetch_message(int(message_id_to_delete))
+                        if message_to_delete:
+                            await message_to_delete.delete()
+                    # go find the channel context
+                    except:
+                        guild = client.get_guild(guild_id) # Replace with the ID of the guild where the message is located
+                        message_to_delete = None
+                        for channel in guild.channels:
+                            try:
+                                message_to_delete = await channel.fetch_message(message_id_to_delete) # Replace with the ID of the message to delete
+                            except:
+                                pass
+                            if message_to_delete:
+                                break
+                        if message_to_delete:
+                            await message_to_delete.delete()
+
                 else:
                     print('deleting prior message')
                     # If no message ID is provided, delete the last message sent by the bot.
