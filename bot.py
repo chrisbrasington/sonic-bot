@@ -164,7 +164,6 @@ async def on_message(message):
                         if msg.author == bot.user:
                             await msg.delete()
                             break
-
             elif message.content.lower() == "meme" or message.content.lower() == 'm':
                 print('meme response')
                 meme_url = get_random_sonic_meme()
@@ -172,6 +171,10 @@ async def on_message(message):
                     await target_channel.send(meme_url)
                 else:
                     await target_channel.send("Failed to fetch a random Sonic meme.")
+            elif message.content.lower() == "wink":
+                await message.channel.send(f'```{SONIC_COFFEE}```')
+            elif message.content.lower() == "wink":
+                await message.channel.send(f'```{SONIC_COFFEE}```')
             elif message.content.lower().startswith("tag"):
                 print('forwarding message with tag')
                 cleaned_message = message.content[3:].strip()
@@ -190,7 +193,7 @@ async def on_message(message):
         #             await message.channel.send(f'```{chunk}```')
         #         last_sonic_coffee_sent = datetime.datetime.now()
         if bot.user in message.mentions:
-            print('sonic-bot mentioned in channel')
+            print(f'sonic-bot mentioned: {message.content}')
             if 'meme' in content_lower or content_lower == 'm':
                 print('meme response')
                 meme_url = get_random_sonic_meme()
