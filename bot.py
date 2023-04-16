@@ -37,24 +37,24 @@ MEME_API_URL = 'http://meme-api.com/gimme/sonicmemes'
 sonic_positive_responses = [
     "Thanks, buddy! You're awesome too!",
     "Gotta love some good vibes!",
-    "Keep spreading positivity, and we'll make this world a better place!",
-    "You're a true friend! Let's collect some rings together!",
-    "Hey, you're as cool as ice! And I know a thing or two about Ice Cap Zone!",
-    "Together, we're unstoppable!",
-    "You're as fast as the wind, and as bright as the sun!",
-    "Thanks for being a part of the team!",
-    "I'm all about the good vibes, and you're bringing them!",
-    "Way past cool! Keep being amazing!",
-    "Your positivity is supercharged, just like a Spin Dash!",
-    "You've got the power of Chaos Emeralds in your words!",
-    "Running through Green Hill Zone is always better with friends like you!",
-    "You've got the speed and spirit of a true hero!",
-    "Keep shining like a Super Sonic!",
-    "Your kind words give me an extra life!",
-    "You're like a shield power-up, always protecting and supporting!",
-    "With friends like you, I know we can defeat any villain!",
-    "You make this adventure even more exciting!",
-    "Your energy could light up the whole Casino Night Zone!"
+    "Keep spreading positivity, and we'll make this world a better place!"#,
+    # "You're a true friend! Let's collect some rings together!",
+    # "Hey, you're as cool as ice! And I know a thing or two about Ice Cap Zone!",
+    # "Together, we're unstoppable!",
+    # "You're as fast as the wind, and as bright as the sun!",
+    # "Thanks for being a part of the team!",
+    # "I'm all about the good vibes, and you're bringing them!",
+    # "Way past cool! Keep being amazing!",
+    # "Your positivity is supercharged, just like a Spin Dash!",
+    # "You've got the power of Chaos Emeralds in your words!",
+    # "Running through Green Hill Zone is always better with friends like you!",
+    # "You've got the speed and spirit of a true hero!",
+    # "Keep shining like a Super Sonic!",
+    # "Your kind words give me an extra life!",
+    # "You're like a shield power-up, always protecting and supporting!",
+    # "With friends like you, I know we can defeat any villain!",
+    # "You make this adventure even more exciting!",
+    # "Your energy could light up the whole Casino Night Zone!"
 ]
 sonic_neutral_responses = [
     "Let's talk about something fun, like collecting rings!",
@@ -92,6 +92,16 @@ sonic_funny_responses = [
     "You may be a tough cookie, but I'm a chili dog with extra relish. Try and catch me!"
 ]
 
+# Keep track of which responses have been used
+used_positive_responses = []
+used_neutral_responses = []
+used_funny_responses = []
+
+# Shuffle the response arrays
+random.shuffle(sonic_positive_responses)
+random.shuffle(sonic_neutral_responses)
+random.shuffle(sonic_funny_responses)
+
 def generate_chatgpt_response(prompt, model="text-davinci-002", max_tokens=50):
     response = openai.Completion.create(
         engine=model,
@@ -128,6 +138,8 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     global debug, last_sonic_coffee_sent, target_count  
+    global sonic_positive_responses, sonic_neutral_responses, sonic_funny_responses
+    global used_positive_responses, used_neutral_responses, used_funny_responses
 
     if message.author.bot:
         return
@@ -206,15 +218,38 @@ async def on_message(message):
                 sentiment = sia.polarity_scores(message.content)
                 print(sentiment)
 
+                # Choose a response based on sentiment
                 if sentiment['neg'] > sentiment['pos']:
-                    print('  nevative')
-                    response = random.choice(sonic_funny_responses)
+                    print('  negative')
+                    response = sonic_funny_responses.pop()
+                    used_funny_responses.append(response)
                 elif sentiment['pos'] > sentiment['neu']:
                     print('  positive')
-                    response = random.choice(sonic_positive_responses)
+                    response = sonic_positive_responses.pop()
+                    used_positive_responses.append(response)
                 else:
                     print('  neutral')
-                    response = random.choice(sonic_neutral_responses)
+                    response = sonic_neutral_responses.pop()
+                    used_neutral_responses.append(response)
+
+                # If all responses have been used, shuffle the array and start over
+                if not sonic_positive_responses:
+                    print('used all positive responses, reshuffling')
+                    random.shuffle(used_positive_responses)
+                    sonic_positive_responses = used_positive_responses
+                    used_positive_responses = []
+
+                if not sonic_neutral_responses:
+                    print('used all neutral responses, reshuffling')
+                    random.shuffle(used_neutral_responses)
+                    sonic_neutral_responses = used_neutral_responses
+                    used_neutral_responses = []
+
+                if not sonic_funny_responses:
+                    print('used all negative/funny responses, reshuffling')
+                    random.shuffle(used_funny_responses)
+                    sonic_funny_responses = used_funny_responses
+                    used_funny_responses = []
 
                 if debug:
                     response = f'analysis: {sentiment}\n{response}'
