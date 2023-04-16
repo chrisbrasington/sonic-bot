@@ -29,7 +29,7 @@ To run the bot, execute the following command in your terminal:
 
 `python sonic_bot.py`
 
-Once the bot is running, it will respond to various commands and messages. You can use the `/` command prefix to trigger specific bot responses.
+Once the bot is running, it will respond to various commands and messages. It will analyize responses into postive, negative or neutral using [VADER](https://www.analyticsvidhya.com/blog/2022/10/sentiment-analysis-using-vader/) and response from canned ai responses (or api ai resonses?). `meme` and it will search sonicmemes for random popular memes
 
 ## Docker
 
