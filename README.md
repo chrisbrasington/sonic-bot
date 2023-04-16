@@ -35,13 +35,13 @@ Once the bot is running, it will respond to various commands and messages. You c
 
 1. Build the Docker image by executing the following command:
 
-> docker build -t sonic-discord-bot .
+> docker build -t sonic-bot .
 
-This will create a new Docker image with the name "sonic-discord-bot".
+This will create a new Docker image with the name "sonic-bot".
 
 2. Run the Docker container by executing the following command:
 
-> docker run -d --restart=always sonic-discord-bot
+> docker run -d --restart=always sonic-bot
 
 The "-d" flag tells Docker to run the container in detached mode, meaning it will run in the background. The "--restart=always" flag tells Docker to automatically restart the container if it crashes or is stopped.
 
