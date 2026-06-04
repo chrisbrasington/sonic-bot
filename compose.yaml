@@ -1,0 +1,11 @@
+services:
+  sonic-bot:
+    build: .
+    container_name: sonic-bot
+    restart: unless-stopped
+    env_file: .env
+    labels:
+      homepage.group: Bots
+      homepage.name: Sonic Bot
+      homepage.icon: /icons/sonic.png?v=2
+      homepage.description: Discord

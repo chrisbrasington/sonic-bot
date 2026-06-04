@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
+import os
 import discord
 from discord.ext import commands
-import configparser, datetime
+import datetime
 from sonic_ascii import SONIC_WINK, SONIC_COFFEE
 import random, requests
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 import openai
 
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-TOKEN = config.get('Discord', 'TOKEN')
+TOKEN = os.environ['DISCORD_TOKEN']
 
 last_sonic_coffee_sent = None
 target_count = 0
@@ -21,11 +19,11 @@ bot = commands.Bot(
     case_insensitive=True,
     intents=discord.Intents.default())
 
-authorized_user_id = int(config.get('UserIDs', 'AUTHORIZED_USER'))
-target_user_id = int(config.get('UserIDs', 'TARGET_USER'))
-target_channel_id = int(config.get('UserIDs', 'TARGET_CHANNEL'))
-guild_id = int(config.get('UserIDs', 'GUILD_ID'))
-OPENAI_API_KEY = config.get('OpenAi', 'TOKEN')
+authorized_user_id = int(os.environ['AUTHORIZED_USER'])
+target_user_id = int(os.environ['TARGET_USER'])
+target_channel_id = int(os.environ['TARGET_CHANNEL'])
+guild_id = int(os.environ['GUILD_ID'])
+OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
 openai.api_key = OPENAI_API_KEY
 
 debug = False

@@ -1,3 +1,4 @@
+.env
 *.ini
 
 # Byte-compiled / optimized / DLL files
