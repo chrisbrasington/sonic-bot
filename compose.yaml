@@ -1,6 +1,7 @@
 services:
   sonic-bot:
     build: .
+    image: valhalla:5000/sonic-bot:latest
     container_name: sonic-bot
     restart: unless-stopped
     env_file: .env
